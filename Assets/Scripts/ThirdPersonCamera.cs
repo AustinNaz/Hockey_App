@@ -70,14 +70,12 @@ public class ThirdPersonCamera : MonoBehaviour {
 
     private void softFollow()
     {
-        // sets pos and rot variables to the cameras position and rotation
+        // sets pos and rot variables to the cameras position and rotation probably a better way too do this
         pos.Set(transform.position.x, transform.position.y, transform.position.z);
         rot.Set(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
 
-        // sets the cameras position and rotation plus extra translation and rotation from public variables
-        transform.SetPositionAndRotation(target.position, target.rotation);
-        transform.Translate(cameraPos);
-        transform.Rotate(cameraRot);
+        // save a few lines recall the hardfollow code
+        hardFollow();
 
         // interpolates the start pos and rot with the targets pos and rot
         Vector3 newPos = Vector3.Lerp(pos, transform.position, positionFactor);
