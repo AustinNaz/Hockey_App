@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 68893644}
   - component: {fileID: 68893643}
   - component: {fileID: 68893642}
+  - component: {fileID: 68893647}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -286,6 +287,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &68893647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 68893641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acbea68ae1a90e444ae10ccd140fb387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1897796645}
+  positionFactor: 0.1
+  rotationFactor: 0.1
+  cameraMode: 0
+  cameraPos: {x: 0, y: 20, z: -15}
+  cameraRot: {x: 30, y: 0, z: 0}
 --- !u!1 &108807852
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,12 +784,12 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 322.73
+  m_Intensity: 0.7
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -1163,5 +1181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd89a3f36589cfb4399cd8fbe7ae04db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 20
   joystick: {fileID: 1035452239}
+--- !u!4 &1897796645 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: c8ed8da22e81b034eb474953457703a3, type: 3}
+  m_PrefabInternal: {fileID: 1897796639}
