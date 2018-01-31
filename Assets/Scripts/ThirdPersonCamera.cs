@@ -16,6 +16,15 @@ public class ThirdPersonCamera : MonoBehaviour {
     [Tooltip("choose which camera you want 0 = softfollow, 1 = hardfollow, 2 = stopandlook")]
     public int cameraMode = 1;
 
+    [Tooltip("Switch the camera infront of the player")]
+    public bool frontCam = true;
+
+    [Tooltip("The Position for the Camera")]
+    public Vector3 cameraPos = new Vector3(0, 20, -15);
+
+    [Tooltip("The Rotation for the Camera")]
+    public Vector3 cameraRot = new Vector3(30, 0, 0);
+
     /// <summary>
     /// Position of the Camera
     /// </summary>
@@ -25,28 +34,21 @@ public class ThirdPersonCamera : MonoBehaviour {
     /// Rotation of the Camera
     /// </summary>
     private Quaternion rot = new Quaternion();
-
-    [Tooltip("The Position for the Camera")]
-    public Vector3 cameraPos = new Vector3(0, 20, -15);
-
-    [Tooltip("The Rotation for the Camera")]
-    public Vector3 cameraRot = new Vector3(30, 0, 0);
-
 	
 	// Update is called once per frame
 	void Update ()
     {
         if (cameraMode == 0)
         {
-            softFollow();
+            SoftFollow();
         }
         else if (cameraMode == 1)
         {
-            hardFollow();
+            HardFollow();
         }
         else if (cameraMode == 2)
         {
-            stopAndLook();
+            StopAndLook();
         }
 
         // Cycle through camera modes with space bar
@@ -58,9 +60,11 @@ public class ThirdPersonCamera : MonoBehaviour {
                 cameraMode = 0;
             }
         }
+
+        FlipCam();
 	}
 
-    private void hardFollow()
+    private void HardFollow()
     {
         // sets the cameras position and rotation plus extra translation and rotation from public variables
         transform.SetPositionAndRotation(target.position, target.rotation);
@@ -68,14 +72,14 @@ public class ThirdPersonCamera : MonoBehaviour {
         transform.Rotate(cameraRot);
     }
 
-    private void softFollow()
+    private void SoftFollow()
     {
         // sets pos and rot variables to the cameras position and rotation probably a better way too do this
         pos.Set(transform.position.x, transform.position.y, transform.position.z);
         rot.Set(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
 
         // save a few lines recall the hardfollow code
-        hardFollow();
+        HardFollow();
 
         // interpolates the start pos and rot with the targets pos and rot
         Vector3 newPos = Vector3.Lerp(pos, transform.position, positionFactor);
@@ -85,8 +89,25 @@ public class ThirdPersonCamera : MonoBehaviour {
         transform.SetPositionAndRotation(newPos, newRot);
     }
 
-    private void stopAndLook()
+    private void StopAndLook()
     {
         transform.LookAt(target);
+    }
+
+    private void FlipCam()
+    {
+        if (frontCam)
+        {
+            // Flips the cam to infront and facing the player
+            cameraPos = new Vector3(0, 20, 15);
+            cameraRot = new Vector3(30, 180, 0);
+        }
+
+        if (!frontCam)
+        {
+            // Flips the cam back to original position
+            cameraPos = new Vector3(0, 20, -15);
+            cameraRot = new Vector3(30, 0, 0);
+        }
     }
 }
