@@ -8,31 +8,23 @@ public class StickBlade : MonoBehaviour {
     public LayerMask layerMask;
     public GameObject puck;
 
-    public Vector3 puckPos = new Vector3(0, 0, 0);
+    //public Vector3 puckPos = new Vector3(0, 0, 0);
     //private Quaternion puckRot = new Quaternion();
-    private Vector3 lastPosition = new Vector3();
-    private bool inContact = false;
+    //private Vector3 lastPosition = new Vector3();
+    public static bool inContact = false;
 
 	// Use this for initialization
 	void Start () {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
         if (Physics.CheckSphere(transform.position, radius, layerMask))
         {
-            print("YAHA");
+            //print("YAHA");
             inContact = true;
-            //puck.transform.SetPositionAndRotation(transform.position, puckRot);
         }
-
-        if (inContact)
-        {
-            puck.transform.position += transform.position - lastPosition;
-        }
-
-        lastPosition = transform.position;
     }
 }
 
