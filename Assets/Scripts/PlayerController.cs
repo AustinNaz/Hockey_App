@@ -5,13 +5,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     [Tooltip("How fast the player moves")]
-    public float moveSpeed;
+    public float moveSpeed = 20;
+
+    public float stickSpeed = 10;
 
     [Tooltip("The joystick Gameobject to control the player")]
-    public Joystick joystick;
+    public Joystick pJoystick;
 
     [Tooltip("The Rigidbod component attached to the player")]
-    public Rigidbody rb;
+    public Rigidbody prb;
+
+    [Tooltip("The joystick Gameobject to control the stick")]
+    public Joystick sJoystick;
+
+    [Tooltip("The Rigidbod component attached to the stick")]
+    public Rigidbody srb;
 
     [Tooltip("The Stick Gameobject the player uses")]
     public Transform stick;
@@ -34,20 +42,27 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        rb = GetComponent<Rigidbody>();
+        prb = GetComponent<Rigidbody>();
+        srb = stick.GetComponent<Rigidbody>();
 
         // the Original stick and puck rotation
-        stickRot = stick.rotation;
+        //stickRot = stick.rotation;
         puckRot = puck.rotation;
 	}
 	
 	// Update is called once per frame should move this too Fixedupdate but it looks janky in there
 	void Update ()
     {
-        Vector3 moveVector = (transform.right * joystick.Horizontal + transform.forward * joystick.Vertical).normalized;
+        Vector3 moveVector = (transform.right * pJoystick.Horizontal + transform.forward * pJoystick.Vertical).normalized;
         transform.Translate(moveVector * moveSpeed * Time.deltaTime);
         float speed = moveSpeed * Time.deltaTime;
-        rb.AddForce(moveVector * speed);
+        prb.AddForce(moveVector * speed);
+
+        Vector3 stickMoveVector = (stick.transform.right * sJoystick.Vertical + stick.transform.forward * sJoystick.Horizontal).normalized;
+        stick.transform.Rotate(stickMoveVector * stickSpeed * Time.deltaTime);
+        float speedTest = stickSpeed * Time.deltaTime;
+        srb.AddForce(stickMoveVector * speedTest);
+        
         AttachStick();
 
         // If the bool in Stickblade is true attach the puck
@@ -80,7 +95,8 @@ public class PlayerController : MonoBehaviour {
     private void AttachStick()
     {
         // Sets the stick too the players position but keeps the sticks rotation
-        stick.SetPositionAndRotation(transform.position, stickRot);
+        //stick.SetPositionAndRotation(transform.position, stickRot);
+        stick.position = transform.position;
         // Translates the stick into position from player base
         stick.position = stick.position + stickPos;
     }
